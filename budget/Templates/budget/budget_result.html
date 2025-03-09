@@ -1,0 +1,47 @@
+{% load custom_filters %}
+<!DOCTYPE html>
+<html lang="en">
+{{ your_number_variable|abs_value }}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Summary</title>
+</head>
+<body>
+    <h1>Your Budget Summary</h1>
+
+    <h2>Monthly Salary: {{ budget.salary }}</h2>
+
+    <h3>Budget Allocation:</h3>
+    <ul>
+        {% for category, amount in budget.budget_breakdown.items %}
+            <li>{{ category }}: {{ amount }}</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Needs Breakdown:</h3>
+    <ul>
+        {% for category, amount in budget.needs_breakdown.items %}
+            <li>{{ category }}: {{ amount }}</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Wants Breakdown:</h3>
+    <ul>
+        {% for category, amount in budget.wants_breakdown.items %}
+            <li>{{ category }}: {{ amount }}</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Total Expenses: {{ budget.total_expenses }}</h3>
+    {% if budget.remaining_balance < 0 %}
+       <p style="color: red;">You are overspending by {{ budget.remaining_balance|abs_value }}!</p>
+
+    {% else %}
+        <p style="color: green;">Remaining Balance: {{ budget.remaining_balance }}</p>
+    {% endif %}
+
+    <a href="{% url 'budget' %}">Go Back</a>
+</body>
+</html>
